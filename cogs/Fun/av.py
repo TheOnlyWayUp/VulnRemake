@@ -9,6 +9,8 @@ class getAv(commands.Cog):
   async def avatar(ctx, member: discord.Member=None):
     if member is None:
       nonebed = discord.Embed(title="You need to mention a member!",color=0xea5852)
-      await ctx.reply(embed=nonebed, delete_after=db["del"])
+    else:
+      await ctx.reply(embed=discord.Embed(image=url(member.avatar.url)), delete_after=db["del"])
+    await ctx.message.delete()
 def setup(bot):
   bot.add_cog(getAv(bot))

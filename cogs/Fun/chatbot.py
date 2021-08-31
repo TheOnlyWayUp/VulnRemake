@@ -16,6 +16,7 @@ class chatbot(commands.Cog):
       inSesh=None
       print(f"{ctx.author} tried '{msg}' but got {e}.")
       await ctx.send("There was an error, this has been reported to the dev.", delete_after=db["del"])
+    await ctx.message.delete()
   @commands.command(help="Close a chatbot session.",aliases=["stop","terminate"])
   async def close(self, ctx):
     global inSesh
@@ -25,5 +26,6 @@ class chatbot(commands.Cog):
       inSesh = None
     else:
       await ctx.send("No sessions active.", delete_after=db["del"])
+    await ctx.message.delete()
 def setup(bot):
     bot.add_cog(chatbot(bot))
