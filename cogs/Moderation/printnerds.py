@@ -7,7 +7,7 @@ class printnerds(commands.Cog):
   def __init__(self, bot):
       self.bot = bot
   @commands.command(help="Prints all users that haven't logged in in 3 days, are below level 20 and have got less than 21k gexp in the past 7 days.")
-  async def printnerds(ctx, level:int=20, afk:int=2, xp:int=21000):
+  async def printnerds(self, ctx, level:int=20, afk:int=2, xp:int=21000):
     if await stcheck(ctx) is True:
       await ctx.reply("Processing...")
       current_time = datetime.datetime.now() 

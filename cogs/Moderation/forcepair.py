@@ -2,11 +2,12 @@ import discord
 from replit import db
 from discord.ext import commands
 from main import *
-class forcepair(commnads.Cog):
+
+class forcepair(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(help="Forcepairs a user, does not authenticate if the user mentioned owns the Minecraft account.")
-  async def forcepair(ctx, member: discord.Member,user=None):
+  async def forcepair(self, ctx, member: discord.Member,user=None):
     if await stcheck(ctx) is True:
       disc = await returnDiscord(user)
       rank = await returnRank(user)

@@ -10,6 +10,10 @@ discord = "^1.7.3"
 discord-pretty-help = "^1.3.2"
 replit = "^3.2.4"
 prsaw2 = "^0.42"
+reportlab = "^3.6.1"
+svglib = "^1.1.0"
+colorama = "^0.4.4"
+termcolor = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 

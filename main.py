@@ -1,5 +1,9 @@
 #Import libraries
 import discord, aiohttp, asyncio, os, datetime
+from termcolor import colored, cprint     # For Termcolor
+from colorama import init, Fore, Back     
+init(autoreset = True)                    # For colorama
+from replit import db
 from discord.ext import commands
 from pretty_help import DefaultMenu, PrettyHelp
 #Import info from .env file
@@ -13,13 +17,7 @@ menu = DefaultMenu(page_left="⬅", page_right="➡", remove="❌", active_time=
 bot.help_command = PrettyHelp(menu=menu, ending_note="Run by {ctx.author.name}", index_title="**VULN**", no_category="**VULN**", sort_commands=True)
 all_categories = [category for category in os.listdir("./cogs")]
 print(all_categories)
-for category in all_categories:
-  for filename in os.listdir(f"./cogs/{category}"):
-      if filename.endswith(".py"):
-        bot.load_extension(f"cogs.{category}.{filename[:-3]}")
-        print(f"Succesfully Loaded Cog: {filename}")
-      else:
-        continue
+
 #Main functions
 async def req(link):
   async with aiohttp.ClientSession() as session:
@@ -50,30 +48,60 @@ async def returnDiscord(check=None, ty="name"):
     check = await returnUUID(check)
   elif ty == "uuid":
     check = check
-  return req(f"https://api.hypixel.net/player?key={key_of_the_api}&uuid={check}")["player"]["socialMedia"]["links"]["DISCORD"]
+  x= await req(f"https://api.hypixel.net/player?key={key_of_the_api}&uuid={check}")
+  try:
+    return x["player"]["socialMedia"]["links"]["DISCORD"]
+  except:
+    return "unpaired"
 async def returnMS(check=None, ty="name"):
-  members = await req(f'https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2')["guild"]["members"]
+  members = await req(f'https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2')
   if ty == "name":
     check = returnUUID(check)
   elif ty == "uuid":
     check = check
-  for member in members:
+  for member in members["guild"]["members"]:
     if check == member["uuid"]:
       return True
     else:
       continue
   return False
 async def returnRank(check=None, ty="name"):
-  members = await req(f'https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2')["guild"]["members"]
+  members = await req(f'https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2')
   if ty == "name":
     check = await returnUUID(check)
   elif ty == "uuid":
     check = check
-  for member in members:
+  for member in members["guild"]["members"]:
     if member["uuid"] == check:
       return member["rank"]
+  return "not in guild"
+#Return staff status of a user
+async def stcheck(ctx):
+    role = discord.utils.get(ctx.guild.members, name=db["staffRole"])
+    roleasd = discord.utils.find(lambda r: r.name == "God Father", ctx.message.guild.roles)
+    if role in ctx.author.roles or str(ctx.author.id) == str(ctx.guild.owner.id) or roleasd in ctx.author.roles or ctx.author.guild_permissions.administrator is True or str(ctx.author.id) == str(562175882412687361) or str(ctx.author.id) == str(876055467678375998):
+      return True
+    else:
+      return False
+
+
+#Loading cogs
+for category in all_categories:
+  for filename in os.listdir(f"./cogs/{category}"):
+      if filename.endswith(".py"):
+        try:
+          bot.load_extension(f"cogs.{category}.{filename[:-3]}")
+          cprint(f"Loaded {filename}", "green")
+        except Exception as e:
+          cprint(f"Unable to load {filename} due to {e}", "red")
+          continue
+      else:
+        continue
 
 
 
-#bot.run(token)
+@bot.event
+async def on_ready():
+  print("Ready.")
+bot.run(token)
 

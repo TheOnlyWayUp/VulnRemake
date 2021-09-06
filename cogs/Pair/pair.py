@@ -9,16 +9,18 @@ class pair(commands.Cog):
   @commands.command(help="Lets a user pair with their MC account.")
   async def pair(self, ctx, user=None):
     if await returnExistence(user) is True:
-      #dcRole = discord.utils.get(ctx.guild.roles, name="Discord Member")
-      disc = await returnDiscord(user)
-      pairing(user, disc, ctx.author)
+      dcRole = discord.utils.get(ctx.guild.roles, name="Discord Member")
+      try:
+        disc = await returnDiscord(user)
+      except:
+        await ctx.reply("You aren't linked to Hypixel.\nTutorial - <https://hypixel.net/threads/guide-how-to-link-discord-account.3315476/>", mention_author=False)
       ranks = ["Vulnerable","Active-Vuln","InVulnerable","Helpers"]
       rank = await returnRank(user)  
       roles=[
-  discord.utils.get(ctx.guild.roles, name="Guild member"),
-  discord.utils.get(ctx.guild.roles, name="Active Guild Member"),
-  discord.utils.get(ctx.guild.roles, name="Special Guild Member"),
-discord.utils.get(ctx.guild.roles, name="Helper")]
+    discord.utils.get(ctx.guild.roles, name="Guild member"),
+    discord.utils.get(ctx.guild.roles, name="Active Guild Member"),
+    discord.utils.get(ctx.guild.roles, name="Special Guild Member"),
+  discord.utils.get(ctx.guild.roles, name="Helper")]
       if str(disc) == str(ctx.author):
         if rank == ranks[0]:
           await ctx.author.add_roles(roles[0], reason=f"v!pair by {ctx.author}")
@@ -43,6 +45,6 @@ discord.utils.get(ctx.guild.roles, name="Helper")]
         await ctx.reply("Tutorial - <https://hypixel.net/threads/guide-how-to-link-discord-account.3315476/>", mention_author=False,delete_after=db["del"])
     else:
       await ctx.send("That Minecraft account doesn't exist!",delete_after=db["del"])
-
+    await ctx.message.delete()
 def setup(bot):
     bot.add_cog(pair(bot))
