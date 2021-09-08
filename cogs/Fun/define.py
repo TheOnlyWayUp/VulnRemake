@@ -10,7 +10,7 @@ class define(commands.Cog):
     try:
       word = await req(f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{arg}")
       word = word[0]
-      await ctx.reply(f'Word - {word["word"]}\nDefinition - {word["meanings"][0]["definitions"][0]["definition"]}\nExamples - {word["meanings"][0]["definitions"][0]["example"]}', delete_after=db["del"])
+      await ctx.reply(embed=discord.Embed(title=word["word"], description=f'Definition - {word["meanings"][0]["definitions"][0]["definition"]}\nExamples - {word["meanings"][0]["definitions"][0]["example"]}',color=discord.Colour.random()), delete_after=db["del"])
     except:
       await ctx.send("There was an error finding this word.", delete_after=db["del"])
     await ctx.message.delete()
@@ -23,7 +23,7 @@ class define(commands.Cog):
       'x-rapidapi-host': "mashape-community-urban-dictionary.p.rapidapi.com"
       }
     response = requests.request("GET", url, headers=headers, params=querystring)
-
-    await ctx.reply(f'Definition -\n{response.json()["list"][0]["definition"]}\n\nExamples -\n{response.json()["list"][0]["example"]}', delete_after=db["del"])
+    await ctx.reply(embed=discord.Embed(title=word, description=f'{response.json()["list"][0]["definition"]}\n\nExamples -\n{response.json()["list"][0]["example"]}',color=discord.Colour.random()), delete_after=db["del"])
+    await ctx.message.delete()
 def setup(bot):
     bot.add_cog(define(bot))

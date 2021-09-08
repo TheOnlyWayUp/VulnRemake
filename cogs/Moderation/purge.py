@@ -14,7 +14,7 @@ class purge(commands.Cog, name="Purge"):
       async for message in channel.history(limit=amount + 1):
         messages.append(message)
       await channel.delete_messages(messages)
-      await ctx.send(f'{amount} messages have been purged by {ctx.message.author.mention}', delete_after=db["del"])
+      await ctx.send(embed=discord.Embed(title=f'{amount} messages have been purged by {ctx.message.author.name}', color=discord.Colour.random()), delete_after=db["del"])
     else:
       await ctx.reply("Not staff.")
 def setup(bot):
