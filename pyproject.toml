@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "repl_python3_VulnRemake"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+version = "0.3.0"
+description = "A remake of the VULN bot made by TheOnlyWayUp#1231 for the VULN Guild on Hypixel."
+authors = ["TheOnlyWayUp#1231 thedarkdraconian@gmail.com"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
