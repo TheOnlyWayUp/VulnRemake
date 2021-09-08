@@ -113,12 +113,40 @@ python-versions = "*"
 "discord.py" = ">=1.7.3"
 
 [[package]]
+name = "discord-better-help"
+version = "1.3.0"
+description = "An extension module for discord.py to make setting up a help command easier."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+"discord.py" = "*"
+
+[[package]]
 name = "discord-pretty-help"
 version = "1.3.2"
 description = "And nicer looking interactive help menu for discord.py"
 category = "main"
 optional = false
 python-versions = ">=3.6,<4.0"
+
+[[package]]
+name = "discord-py-interactions"
+version = "3.0.2"
+description = "A simple API wrapper for Discord interactions."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+aiohttp = "*"
+"discord.py" = "*"
+
+[package.extras]
+dev = ["black", "flake8", "isort", "sphinx", "sphinx-rtd-theme"]
+lint = ["black", "flake8", "isort", "sphinx", "sphinx-rtd-theme"]
+readthedocs = ["sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "discord.py"
@@ -368,7 +396,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e6d22251b1093280b235b017614733ccd58cf1c178debba1acb169886d8f6910"
+content-hash = "be71c22b89a18f46d153b4326d5c8a215f8fb789cd8be4b4fbba4ca9ae4acac5"
 
 [metadata.files]
 aiohttp = [
@@ -446,9 +474,17 @@ discord = [
     {file = "discord-1.7.3-py3-none-any.whl", hash = "sha256:248d728356e149c818a81b94659047a19305ea1623d4810bbb342f6b7df55f36"},
     {file = "discord-1.7.3.tar.gz", hash = "sha256:846dd3d66888c2e0a8bd9120d8778a0fe088c003a7f6451668497f14e322a304"},
 ]
+discord-better-help = [
+    {file = "discord-better-help-1.3.0.tar.gz", hash = "sha256:8e4a8ad6638572a3484f923e11bb553701097e0a6839244dd6cc0d9d756c58ce"},
+    {file = "discord_better_help-1.3.0-py3-none-any.whl", hash = "sha256:7d3f7bcd597d207ba2263483e9952be6f0fe316391af20d34996d0644bb6485c"},
+]
 discord-pretty-help = [
     {file = "discord-pretty-help-1.3.2.tar.gz", hash = "sha256:4dce6840583a7054f7604af888c14584e477256ac203b456faba64cfeca20be5"},
     {file = "discord_pretty_help-1.3.2-py3-none-any.whl", hash = "sha256:61bc6cf2ddb3ac91773d4678ba18a6f3e28396ff10f1c1c09a62f18411793f14"},
+]
+discord-py-interactions = [
+    {file = "discord-py-interactions-3.0.2.tar.gz", hash = "sha256:14f11c2333a2287991abfe5169cd7be5d25fdaadec546f0da6cbd3de00fc75bd"},
+    {file = "discord_py_interactions-3.0.2-py3-none-any.whl", hash = "sha256:b50eb92d2b86bda71b02077d95a3089205f6b981baea28304ee80916e0a22029"},
 ]
 "discord.py" = [
     {file = "discord.py-1.7.3-py3-none-any.whl", hash = "sha256:c6f64db136de0e18e090f6752ea68bdd4ab0a61b82dfe7acecefa22d6477bb0c"},

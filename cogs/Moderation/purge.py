@@ -3,7 +3,7 @@ from replit import db
 from discord.ext import commands
 from main import stcheck
 
-class purge(commands.Cog):
+class purge(commands.Cog, name="Purge"):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(help="Purges a given number of messages, defaults to 15")

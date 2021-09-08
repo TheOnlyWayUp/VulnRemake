@@ -8,8 +8,9 @@ class define(commands.Cog):
   @commands.command(help="Finds the dictionary definition of a word")
   async def define(self, ctx, *, arg):
     try:
-      word = await req(f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{arg}").json()[0]
-      await ctx.send(f'Word - {word["word"]}\nDefinition - {word["meanings"][0]["definitions"][0]["definition"]}\nExamples - {word["meanings"][0]["definitions"][0]["example"]}', delete_after=db["del"])
+      word = await req(f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{arg}")
+      word = word[0]
+      await ctx.reply(f'Word - {word["word"]}\nDefinition - {word["meanings"][0]["definitions"][0]["definition"]}\nExamples - {word["meanings"][0]["definitions"][0]["example"]}', delete_after=db["del"])
     except:
       await ctx.send("There was an error finding this word.", delete_after=db["del"])
     await ctx.message.delete()
@@ -23,6 +24,6 @@ class define(commands.Cog):
       }
     response = requests.request("GET", url, headers=headers, params=querystring)
 
-    await ctx.send(f'Definition -\n{response.json()["list"][0]["definition"]}\n\nExamples -\n{response.json()["list"][0]["example"]}')
+    await ctx.reply(f'Definition -\n{response.json()["list"][0]["definition"]}\n\nExamples -\n{response.json()["list"][0]["example"]}', delete_after=db["del"])
 def setup(bot):
     bot.add_cog(define(bot))

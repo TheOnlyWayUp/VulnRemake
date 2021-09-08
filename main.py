@@ -1,22 +1,23 @@
 #Import libraries
 import discord, aiohttp, asyncio, os, datetime
-from termcolor import colored, cprint     # For Termcolor
-from colorama import init, Fore, Back     
-init(autoreset = True)                    # For colorama
+from termcolor import cprint
 from replit import db
 from discord.ext import commands
-from pretty_help import DefaultMenu, PrettyHelp
+from better_help import Help
+#from pretty_help import DefaultMenu, PrettyHelp
 #Import info from .env file
 key_of_the_api = os.environ["api"]
 token = os.environ["token"]
 #Init the bot class
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(commands.when_mentioned_or("v!","V!","vuln!","Vuln!"),intents=intents,activity=discord.Activity(type=discord.ActivityType.listening,name="v!help or mentions!"), case_insensitive=True)
+bot = commands.Bot(
+  commands.when_mentioned_or("v!","V!","vuln!","Vuln!"),intents=intents,name="v!help or mentions!",case_insensitive=True,help_command=Help())
+'''
 menu = DefaultMenu(page_left="⬅", page_right="➡", remove="❌", active_time=5)
 bot.help_command = PrettyHelp(menu=menu, ending_note="Run by {ctx.author.name}", index_title="**VULN**", no_category="**VULN**", sort_commands=True)
+'''
 all_categories = [category for category in os.listdir("./cogs")]
-print(all_categories)
 
 #Main functions
 async def req(link):
@@ -24,11 +25,17 @@ async def req(link):
     async with session.get(link) as resp:
       return await resp.json()
 async def returnUUID(ign=None):
-  resp = await req(f"https://api.mojang.com/users/profiles/minecraft/{ign}")
-  return resp["id"]
+  try:
+    resp = await req(f"https://api.mojang.com/users/profiles/minecraft/{ign}")
+    return resp["id"]
+  except:
+    return "404"
 async def returnName(uuid=None):
-  resp = await req(f"https://api.mojang.com/users/profiles/minecraft/{uuid}")
-  return resp["name"]
+  try:
+    resp = await req(f"https://api.mojang.com/user/profile/{uuid}")
+    return resp["name"]
+  except:
+    return uuid
 async def returnLast(check=None, ty="name"):
   if ty == "name":
     check = await returnUUID(check)
@@ -56,7 +63,7 @@ async def returnDiscord(check=None, ty="name"):
 async def returnMS(check=None, ty="name"):
   members = await req(f'https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2')
   if ty == "name":
-    check = returnUUID(check)
+    check = await returnUUID(check)
   elif ty == "uuid":
     check = check
   for member in members["guild"]["members"]:
@@ -86,6 +93,7 @@ async def stcheck(ctx):
 
 
 #Loading cogs
+print(all_categories)
 for category in all_categories:
   for filename in os.listdir(f"./cogs/{category}"):
       if filename.endswith(".py"):
@@ -103,5 +111,7 @@ for category in all_categories:
 @bot.event
 async def on_ready():
   print("Ready.")
+  await bot.change_presence(status=discord.Status.idle,activity=discord.Activity(type=discord.ActivityType.listening, name="v!help and mentions."))
+
 bot.run(token)
 

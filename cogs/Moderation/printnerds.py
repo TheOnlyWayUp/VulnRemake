@@ -3,24 +3,18 @@ from replit import db
 from discord.ext import commands
 from main import *
 
-class printnerds(commands.Cog):
+class printnerds(commands.Cog, name="Print nerds"):
   def __init__(self, bot):
       self.bot = bot
   @commands.command(help="Prints all users that haven't logged in in 3 days, are below level 20 and have got less than 21k gexp in the past 7 days.")
   async def printnerds(self, ctx, level:int=20, afk:int=2, xp:int=21000):
     if await stcheck(ctx) is True:
-      await ctx.reply("Processing...")
-      current_time = datetime.datetime.now() 
-      async with aiohttp.ClientSession() as session:
-        async with session.get(f'https://api.hypixel.net/guild?key=8{key_of_the_api}&id=5e8c16788ea8c9ec75077ba2') as resp:
-          x = await resp.json()
-          members = x["guild"]["members"]
+      resp = await req(f"https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2")
+      members = resp["guild"]["members"]
       nerdl = commands.Paginator()
       for member in members:
         name = await returnName(member["uuid"])
-        if name not in await db.keys():
-          await db.set(f"{name}off",False)
-        if await db.get(f'{name}off') is not True:
+        if True:
           trash = False
           reason = []
           try:

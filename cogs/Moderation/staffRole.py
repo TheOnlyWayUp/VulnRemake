@@ -3,7 +3,7 @@ from main import *
 import discord
 from discord.ext import commands
 
-class staffRole(commands.Cog):
+class staffRole(commands.Cog, name="Set staffrole"):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(help="Sets the staffrole.")
