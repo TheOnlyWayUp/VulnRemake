@@ -43,6 +43,7 @@ class getInfo(commands.Cog):
       for x in range(10):
         embedStats.add_field(name=await returnName(playerDict[x][0]),value=f"{playerDict[x][1]} GExp", inline=False)
       await ctx.send(embed=embedStats, delete_after=db["del"])
+      await ctx.message.delete()
     @commands.command(help="Gets the UUID of a user.")
     async def getUUID(self, ctx, ign):
       await ctx.reply(embed=discord.Embed(title=str(await returnUUID(ign)),color=discord.Colour.random()), delete_after=db["del"])

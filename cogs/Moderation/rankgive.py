@@ -6,6 +6,7 @@ class Rankgive(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(help="Synchronises everyone's rank in the server to the ones in the guild.")
+  @commands.cooldown(rate=1, per=30)
   async def rankgive(self, ctx):
     if await stcheck(ctx) is True:
       await ctx.reply("Processing.")
@@ -17,7 +18,7 @@ class Rankgive(commands.Cog):
     discord.utils.get(ctx.guild.roles, name="Helper")]
       ranks = ["Vulnerable","Active-Vuln","InVulnerable","Helpers","UnVulnerable"]
       users = [m for m in roles[0].members]
-      changes = {"Updates":0,"Removals":0,"Errors":0,"Unknown":[]}
+      changes = {"Updates":0,"Removals":0,"Errors":0,"Unknown":["."]}
       async with ctx.typing():
         for user in users:
           username = user.display_name
@@ -59,7 +60,6 @@ class Rankgive(commands.Cog):
           for item in changes["Unknown"]:
             unkstr = unkstr + "\n" + str(item)
           rngEmbed.add_field(name=key, value=unkstr, inline=False)
-      await asyncio.sleep(5)
       await ctx.reply(embed=rngEmbed)
       await bot.change_presence(status=discord.Status.idle,activity=discord.Activity(type=discord.ActivityType.listening, name="v!help and mentions."))
 def setup(bot):

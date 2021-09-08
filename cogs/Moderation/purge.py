@@ -7,6 +7,7 @@ class purge(commands.Cog, name="Purge"):
   def __init__(self, bot):
     self.bot = bot
   @commands.command(help="Purges a given number of messages, defaults to 15")
+  @commands.cooldown(rate=1, per=3)
   async def purge(self, ctx, amount=30):
     if await stcheck(ctx) is True:
       channel = ctx.message.channel
