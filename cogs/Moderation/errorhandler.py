@@ -8,10 +8,11 @@ class ehandler(commands.Cog):
   @commands.Cog.listener()
   async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
     message = "This is an undocumented error, it has been reported and will be patched in the next update."
-    raise error
+    #raise error
     #Command not found
     if isinstance(error, commands.CommandNotFound):
       await ctx.message.add_reaction('⁉️')
+      message = "Command not found."
     #On cooldown
     elif isinstance(error, commands.CommandOnCooldown):
       message = f"This command is on cooldown. Please try again after {round(error.retry_after, 1)} seconds."
@@ -22,6 +23,8 @@ class ehandler(commands.Cog):
       message = "Bad arguement."
     #Not enough args
     elif isinstance(error, commands.UserInputError):
+      message = f"Not all required arguements were passed, do `v!help {ctx.message.content[2:]}`"
+    elif isinstance(error, commands.MissingRequiredArgument):
       message = f"Not all required arguements were passed, do `v!help {ctx.message.content[2:]}`"
     #Mentioned member not found
     elif isinstance(error, commands.MemberNotFound):

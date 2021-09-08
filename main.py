@@ -8,6 +8,7 @@ from better_help import Help
 #Import info from .env file
 key_of_the_api = os.environ["api"]
 token = os.environ["token"]
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 #Init the bot class
 intents = discord.Intents.default()
 intents.members = True

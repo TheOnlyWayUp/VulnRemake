@@ -24,11 +24,11 @@ class getAv(commands.Cog):
         async with aiohttp.ClientSession() as session:
           async with session.get(f"https://avatars.dicebear.com/api/micah/{seed}.svg?mood[]=happy") as resp:
             img_data = await resp.content.read()
-        with open('.\Images\img.svg', 'wb') as handler:
+        with open('img.svg', 'wb') as handler:
           handler.write(img_data)
-        drawing = svg2rlg('.\Images\img.svg')
-        renderPM.drawToFile(drawing, '.\Images\img2.png', fmt='PNG')
-        with open(".\Images\img2.png", "rb") as fh:
+        drawing = svg2rlg('img.svg')
+        renderPM.drawToFile(drawing, 'img2.png', fmt='PNG')
+        with open("img2.png", "rb") as fh:
           f = discord.File(fh, filename="av.png")
         await ctx.reply(file=f, delete_after=db["del"])
         await ctx.message.delete()

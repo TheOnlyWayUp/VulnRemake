@@ -1,0 +1,60 @@
+{
+  "files": {
+    "cogs/Moderation/errorhandler.py": [
+      {
+        "id": "01dea122-e4dc-4b5c-b71f-442cdf3dcf73",
+        "line": 13,
+        "version": 666,
+        "index": 415
+      },
+      {
+        "id": "a9d9554d-59cf-42f4-a0e2-eb7061ac5526",
+        "line": 17,
+        "version": 665,
+        "index": 564
+      },
+      {
+        "id": "9a684a26-360e-42ee-a1ab-4238c22ce2cf",
+        "line": 20,
+        "version": 665,
+        "index": 765
+      },
+      {
+        "id": "3427f223-de65-421b-b283-ed64e4c92542",
+        "line": 22,
+        "version": 665,
+        "index": 856
+      },
+      {
+        "id": "83a3874a-2065-4332-ba8f-51379e0a161f",
+        "line": 25,
+        "version": 665,
+        "index": 960
+      },
+      {
+        "id": "cf41f088-4e8a-4fef-bd2f-408d2840ca8a",
+        "line": 27,
+        "version": 665,
+        "index": 1111
+      },
+      {
+        "id": "61115832-9e8e-4bde-a63c-c7a028ab0d38",
+        "line": 30,
+        "version": 665,
+        "index": 1303
+      },
+      {
+        "id": "ed77c01e-bff3-48b1-bdbd-58580e6fa8ed",
+        "line": 33,
+        "version": 665,
+        "index": 1435
+      },
+      {
+        "id": "ba137c4c-2553-431a-b620-856002f721e3",
+        "line": 35,
+        "version": 665,
+        "index": 1557
+      }
+    ]
+  }
+}
