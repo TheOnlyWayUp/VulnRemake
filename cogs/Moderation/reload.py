@@ -7,34 +7,6 @@ class Reload(commands.Cog, name="Reload/Load commands"):
   def __init__(self, bot):
     self.bot = bot
     DiscordComponents(self.bot)
-
-  def loadfunc(arg, rl):
-    if arg == "reload":
-      try:
-        self.bot.reload_extension(rl)
-        return True
-      except Exception as e:
-        return False
-        print(e)
-    elif arg == "unload":
-      try:
-        self.bot.unload_extension(rl)
-        return True
-      except:
-        return False
-    elif arg == "load":
-      try:
-        self.bot.load_extension(rl)
-        return True
-      except:
-        return False
-    elif arg == "newload":
-      try:
-        self.self.bot.load_extension(rl)
-        self.bot.reload_extension(rl)
-        return True
-      except:
-        return False
   @commands.Cog.listener()
   async def on_button_click(function, interaction):
     arg = interaction.component.custom_id
