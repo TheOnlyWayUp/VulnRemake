@@ -77,7 +77,6 @@ class getInfo(commands.Cog):
 
       embed.add_field(name="Roles:", value="".join([role.mention for role in roles]))
       embed.add_field(name="Highest Role:", value=member.top_role.mention)
-      print(member.top_role.mention)
       await ctx.send(embed=embed, delete_after=db["del"])
       await ctx.message.delete()
 def setup(bot):

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from replit import db
-
+from main import *
 class ehandler(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
@@ -50,5 +50,55 @@ class ehandler(commands.Cog):
       await ctx.message.delete()
     except:
       pass
+  @commands.Cog.listener()
+  async def on_member_join(self, member):
+    guild =  member.guild
+    def check(m: discord.Message):
+      return m.author.id == member.id and isinstance(m.channel, discord.channel.DMChannel)
+    mem = discord.Embed(title=f"Welcome to Vuln, {member.name}!", description=f"Type your username.", color=0x39f220)
+    await member.send(embed=mem)
+    user = await self.bot.wait_for(event = 'message', check = check, timeout = 30)
+    if await returnExistence(user) is True:
+      dcRole = discord.utils.get(guild.roles, name="Discord Member")
+      try:
+        disc = await returnDiscord(user.content)
+      except:
+        await user.reply("You aren't linked to Hypixel.\nTutorial - <https://hypixel.net/threads/guide-how-to-link-discord-account.3315476/>", mention_author=False)
+        return
+      ranks = ["Vulnerable","Active-Vuln","InVulnerable","Helpers"]
+      rank = await returnRank(user.content)  
+      roles=[
+    discord.utils.get(guild.roles, name="Guild member"),
+    discord.utils.get(guild.roles, name="Active Guild Member"),
+    discord.utils.get(guild.roles, name="Special Guild Member"),
+  discord.utils.get(guild.roles, name="Helper")]
+      if str(disc) == str(user.author):
+        if rank == ranks[0]:
+          await member.add_roles(roles[0], reason=f"v!pair by {user.author}")
+          await member.author.remove_roles(roles[1], roles[2], roles[3])
+        if rank == ranks[1]:
+          await member.add_roles(roles[0], roles[1], reason=f"v!pair by {user.author}")
+          await member.remove_roles(roles[2], roles[3])
+        if rank == ranks[2]:
+          await member.add_roles(roles[0], roles[2], reason=f"v!pair by {user.author}")
+          await member.remove_roles(roles[1], roles[3])
+        if rank == ranks[3]:
+          await member.add_roles(roles[0], roles[3], reason=f"v!pair by {user.author}")
+          await member.remove_roles(roles[1], roles[2])
+        try:
+          await member.edit(nick=user.content)
+          await user.reply(embed=discord.Embed(title=f"Successfuly paired to {user.content}!", color=0x70e7a4), delete_after=db["del"])
+        except Exception as e:
+          print(e)
+          await user.reply(embed=discord.Embed(title=f"Successfuly paired to {user.content} but unable to set nickname.", color=0xffea9b), mention_author=False, delete_after=db["del"])
+      else:
+        await user.reply(embed=discord.Embed(title=f"Pairing failed. Check the account you have paired to Minecraft. Different fonts/tags are not supported.", color=0xea5852), mention_author=False,delete_after=db["del"])
+        await user.reply("Tutorial - <https://hypixel.net/threads/guide-how-to-link-discord-account.3315476/>", mention_author=False,delete_after=db["del"])
+    else:
+      await user.reply("That Minecraft account doesn't exist!",delete_after=db["del"])
+    #await ign.reply(ign.content)
+    await guild.system_channel.send(f"Welcome to Vuln, {member.name}.")
+
+  
 def setup(bot):
   bot.add_cog(ehandler(bot))

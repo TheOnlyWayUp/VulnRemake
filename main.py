@@ -12,8 +12,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 #Init the bot class
 intents = discord.Intents.default()
 intents.members = True
+intents.reactions = True
 bot = commands.Bot(
-  commands.when_mentioned_or("v!","V!","vuln!","Vuln!"),intents=intents,name="v!help or mentions!",case_insensitive=True,help_command=Help())
+  commands.when_mentioned_or("v!","V!","vuln!","Vuln!"),intents=intents,case_insensitive=True,help_command=Help())
 '''
 menu = DefaultMenu(page_left="⬅", page_right="➡", remove="❌", active_time=5)
 bot.help_command = PrettyHelp(menu=menu, ending_note="Run by {ctx.author.name}", index_title="**VULN**", no_category="**VULN**", sort_commands=True)
