@@ -1,11 +1,12 @@
 import discord
 from discord.ext import commands
 
+
 class KickOffline(commands.Cog):
     def __init__(self, bot):
-      self.bot = bot
-      self.role_message_id = 886657801013854228
-      self.emoji_to_role = [discord.PartialEmoji(name='🔴')]
+        self.bot = bot
+        self.role_message_id = 886657801013854228
+        self.emoji_to_role = [discord.PartialEmoji(name="🔴")]
 
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
 
@@ -47,5 +48,6 @@ class KickOffline(commands.Cog):
             # If we want to do something in case of errors we'd do it here.
             pass
 
+
 def setup(bot):
-  bot.add_cog(KickOffline(bot))
+    bot.add_cog(KickOffline(bot))

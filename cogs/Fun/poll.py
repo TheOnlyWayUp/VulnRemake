@@ -9,22 +9,26 @@ class QuickPoll(commands.Cog):
     @commands.command(pass_context=True)
     async def poll(self, ctx, question, *options: str):
         if len(options) > 10:
-            await ctx.reply('Options length must be less than 11.')
+            await ctx.reply("Options length must be less than 11.")
             return
 
-        if len(options) == 2 and options[0].lower() == 'yes' and options[1].lower() == 'no':
-            reactions = ['✅', '❌']
+        if (
+            len(options) == 2
+            and options[0].lower() == "yes"
+            and options[1].lower() == "no"
+        ):
+            reactions = ["✅", "❌"]
         else:
-            reactions = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟']
+            reactions = ["1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣", "🔟"]
 
         description = []
         for x, option in enumerate(options):
-            description += '\n {} {}'.format(reactions[x], option)
-        embed = discord.Embed(title=question, description=''.join(description))
+            description += "\n {} {}".format(reactions[x], option)
+        embed = discord.Embed(title=question, description="".join(description))
         react_message = await ctx.reply(embed=embed)
-        for reaction in reactions[:len(options)]:
+        for reaction in reactions[: len(options)]:
             await react_message.add_reaction(reaction)
-        embed.set_footer(text='Poll ID: {}'.format(react_message.id))
+        embed.set_footer(text="Poll ID: {}".format(react_message.id))
         await react_message.edit(embed=embed)
 
     # @commands.command(pass_context=True)
