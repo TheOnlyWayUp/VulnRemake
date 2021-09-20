@@ -4,6 +4,7 @@ from termcolor import cprint
 from replit import db
 from discord.ext import commands
 from better_help import Help
+os.environ["REPLIT_DB_URL"] = "https://kv.replit.com/v0/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzIxNTU0MDcsImlhdCI6MTYzMjA0MzgwNywiaXNzIjoiY29ubWFuIiwiZGF0YWJhc2VfaWQiOiJiZTA2ZmFjNC03YzQzLTRlNzItYmE4My05Nzg2OGFmMjk4NDQifQ.TjqsLQAZCOa34icjmBVF9qTiODbv0eHKtZq3tcp8mwhustqbqo8ANT_zckE9WXQYewjVPaD5zjRbVChVbFHQHw"
 #from pretty_help import DefaultMenu, PrettyHelp
 #Import info from .env file
 key_of_the_api = os.environ["api"]
@@ -95,7 +96,6 @@ async def stcheck(ctx):
 
 
 #Loading cogs
-print(all_categories)
 for category in all_categories:
   for filename in os.listdir(f"./cogs/{category}"):
       if filename.endswith(".py"):

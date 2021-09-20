@@ -17,14 +17,29 @@ class printnerds(commands.Cog, name="Print nerds"):
         notnerds = []
         for item in db["kickoffline"]:
           notnerds.append(item["Name"])
+        print(notnerds)
         resp = await req(f"https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2")
         members = resp["guild"]["members"]
         nerdl = commands.Paginator()
         for member in members:
           name = await returnName(member["uuid"])
+          name = name.lower()
           cont = True
           for notname in notnerds:
-            if notname == name:
+            if notname.lower() == name:
+              #for item in db["kickoffline"]:
+              kickoffline = db["kickoffline"]
+              #print(dict(list(kickoffline)))
+              print(f"{name}\nnot - {notname}")
+              ind = kickoffline[notnerds.index(notname)]
+              print(ind)
+              if current_time.day - int(ind["Start"]) > int(ind["Length"]):
+                '''
+                db["kickoffline"].append({"Name":ign, "Reason":reason, "Length":length, "Start":f"{current_time.day}"})'''
+                notname.remove(name)
+                print("Reached condition.")
+                db["kickoffline"].remove(notname)
+                continue
               cont = False
           if cont is True:
             trash = False
@@ -32,7 +47,7 @@ class printnerds(commands.Cog, name="Print nerds"):
             try:
               if int(await returnLast(member["uuid"])) - current_time.day >= afk:
                 trash = True
-                reason.append(f"Hasn't logged in in {afk} days.")
+                reason.append(f"Logged in {int(await returnLast(member['uuid'])) - current_time.day}/{afk} days.")
             except Exception as e:
               #print(f"{e} at {returnName(member['uuid'])}, uuid = {member['uuid']}")
               pass
@@ -40,7 +55,7 @@ class printnerds(commands.Cog, name="Print nerds"):
             try:
               if int(await functions.returnLevel(await returnName(member['uuid']))) < level:
                 trash = True
-                reason.append(f"Is below level {level}.")
+                reason.append(f"{int(await functions.returnLevel(await returnName(member['uuid'])))}/{level} Level.")
             except Exception as e:
               #print(f"{e} at {returnName(member['uuid'])}, uuid = {member['uuid']}")
               pass
@@ -50,7 +65,7 @@ class printnerds(commands.Cog, name="Print nerds"):
                 xpHistory.append(value)
               if sum(xpHistory[-7:]) < xp:
                 trash = True
-                reason.append(f"Hasn't got {xp} gexp in the past 7 days.")
+                reason.append(f"{sum(xpHistory[-7:])}/{xp} GExp.")
             except Exception as e:
               print(f"{e} at {await returnName(member['uuid'])}, uuid = {member['uuid']}")
             if trash is True:
@@ -74,7 +89,7 @@ class printnerds(commands.Cog, name="Print nerds"):
         if await returnMS(ign) is True:
           if remove is False:
             current_time = datetime.datetime.now()
-            db["kickoffline"].append({"Name":ign, "Reason":reason, "Length":length, "Start":f"{current_time.day}/{current_time.month}"})
+            db["kickoffline"].append({"Name":ign, "Reason":reason, "Length":length, "Start":f"{current_time.day}"})
             await ctx.reply(f"Added {ign} to the no-kicklist.", delete_after=db["del"])
           else:
             for item in db["kickoffline"]:
@@ -105,7 +120,28 @@ class printnerds(commands.Cog, name="Print nerds"):
       for item in db["kickoffline"]:
         kembed.add_field(name=item["Name"], value=f"Reason - {item['Reason']}\nStart time - {item['Start']}\nLength - {item['Length']} days.")
       await interaction.respond(embed=kembed)
-  
+  @commands.command(help="Sets the message to react to for the no kicklist.")
+  async def noKickMsg(self, ctx, id:int):
+    if await stcheck(ctx) is True:
+      message = await ctx.channel.fetch_message(id)
+      db["noKickMsg"] = [id,message.channel.id]
+      await message.add_reaction("🔥")
+      await ctx.reply("Done.", delete_after=db["del"])
+      await ctx.message.delete()
+  @commands.Cog.listener()
+  async def on_raw_reaction_add(self, payload):
+    if payload.channel_id == db["noKickMsg"][1]:
+      if payload.message_id == db["noKickMsg"][0]:
+        guild = bot.get_guild(payload.guild_id)
+        user = guild.get_member(payload.member.id)
+        current_time = datetime.datetime.now()
+        role = discord.utils.get(guild.roles, name="Guild member")
+        if role in user.roles:
+          db["kickoffline"].append({"Name":user.display_name, "Reason":"Reacted to message.", "Length":3, "Start":f"{current_time.day}"})
+          await user.send("You will not be kicked for 3 days.")
+
+
+
   
 
 def setup(bot):

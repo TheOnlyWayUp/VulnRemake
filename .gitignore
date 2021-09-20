@@ -110,3 +110,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.replit
+.env
+poetry.lock
+pyproject.toml
+playerhead.png
+out.gif
+minecraft-aes1.gif
+img2.packaging
+img.svg
