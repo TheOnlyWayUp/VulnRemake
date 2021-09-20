@@ -117,22 +117,23 @@ async def returnRank(check=None, ty="name"):
 
 
 # Return staff status of a user
-async def stcheck(ctx):
-    role = discord.utils.get(ctx.guild.members, name=db["staffRole"])
-    roleasd = discord.utils.find(
-        lambda r: r.name == "God Father", ctx.message.guild.roles
-    )
-    if (
-        role in ctx.author.roles
-        or str(ctx.author.id) == str(ctx.guild.owner.id)
-        or roleasd in ctx.author.roles
-        or ctx.author.guild_permissions.administrator is True
-        or str(ctx.author.id) == str(562175882412687361)
-        or str(ctx.author.id) == str(876055467678375998)
-    ):
-        return True
-    else:
-        return False
+def stcheck():
+    def predicate(ctx):
+        role = discord.utils.get(ctx.guild.roles, name=db["staffRole"])
+        roleasd = discord.utils.find(
+            lambda r: r.name == "God Father", ctx.message.guild.roles
+        )
+        if (
+            role in ctx.author.roles
+            or str(ctx.author.id) == str(ctx.guild.owner.id)
+            or roleasd in ctx.author.roles
+            or ctx.author.guild_permissions.administrator is True
+            or str(ctx.author.id) == str(562175882412687361)
+            or str(ctx.author.id) == str(876055467678375998)
+        ):
+            return True
+
+    return commands.check(predicate)
 
 
 # Loading cogs

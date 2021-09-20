@@ -9,20 +9,18 @@ class addkey(commands.Cog):
         self.bot = bot
 
     @commands.command(help="Adds a key to the database.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def addkey(self, ctx, key, *value: str):
-        if await stcheck(ctx) is True:
-            if key != "del":
-                db[key] = value
-                await ctx.reply(
-                    embed=discord.Embed(
-                        title=f"Set {key} to {value}", color=discord.Colour.random()
-                    ),
-                    delete_after=db["del"],
-                )
-            else:
-                await ctx.reply(
-                    "NAH, do v!delafter for that crap", delete_after=db["del"]
-                )
+        if key != "del":
+            db[key] = value
+            await ctx.reply(
+                embed=discord.Embed(
+                    title=f"Set {key} to {value}", color=discord.Colour.random()
+                ),
+                delete_after=db["del"],
+            )
+        else:
+            await ctx.reply("NAH, do v!delafter for that crap", delete_after=db["del"])
         await ctx.message.delete()
 
     @commands.command(help="Modifies the delete timer.")

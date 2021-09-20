@@ -95,21 +95,13 @@ class getInfo(commands.Cog):
         await ctx.message.delete()
 
     @commands.command(help="Checks if a user is staff or helper.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def getStaff(self, ctx):
-        if await stcheck(ctx) is True:
-            await ctx.reply(
-                embed=discord.Embed(
-                    title="You're staff.", color=discord.Colour.random()
-                ),
-                delete_after=db["del"],
-            )
-        else:
-            await ctx.reply(
-                embed=discord.Embed(
-                    title="You're not staff.", color=discord.Colour.random()
-                ),
-                delete_after=db["del"],
-            )
+        await ctx.reply(
+            embed=discord.Embed(title="You're staff.", color=discord.Colour.random()),
+            delete_after=db["del"],
+        )
+
         await ctx.message.delete()
 
     @commands.command(help="A whois command")

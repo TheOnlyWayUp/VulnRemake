@@ -1,5 +1,6 @@
 import discord, aiohttp, os
 from replit import db
+from main import stcheck
 from discord.ext import commands
 
 key_of_the_api = os.environ["api"]
@@ -10,6 +11,7 @@ class API_check(commands.Cog, name="API Check"):
         self.bot = bot
 
     @commands.command(help="Checks if the API is functional.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def api_check(self, ctx):
         async with aiohttp.ClientSession() as session:
             async with session.get(

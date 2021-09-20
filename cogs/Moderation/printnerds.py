@@ -14,8 +14,8 @@ class printnerds(commands.Cog, name="Print nerds"):
     @commands.command(
         help="Prints all users that haven't logged in in 3 days, are below level 20 and have got less than 21k gexp in the past 7 days."
     )
+    @commands.check_any(commands.is_owner(), stcheck())
     async def printnerds(self, ctx, level: int = 20, afk: int = 2, xp: int = 21000):
-        if await stcheck(ctx) is True:
             current_time = datetime.datetime.now()
             await ctx.reply("Processing...", delete_after=db["del"])
             async with ctx.typing():
@@ -105,12 +105,10 @@ class printnerds(commands.Cog, name="Print nerds"):
                 for page in nerdl.pages:
                     await ctx.send(page)
                 await ctx.send("Completed!")
-        else:
-            await ctx.reply("You're not staff!")
 
     @commands.command(help="Kicklist related commands.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def kicklist(self, ctx, ign=None, reason=None, length=None, remove=False):
-        if await stcheck(ctx) is True:
             if ign is None:
                 await ctx.reply(
                     f"What would you like to do to?",
@@ -146,14 +144,14 @@ class printnerds(commands.Cog, name="Print nerds"):
                             else:
                                 continue
                             await ctx.reply("Not found.", delete_after=db["del"])
-        await ctx.message.delete()
+            await ctx.message.delete()
 
     @commands.command(help="The most retarded command in existence.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def kickoffline1992(self, ctx, arg=None):
-        if await stcheck(ctx) is True:
-            if arg == "reset":
-                db["kickoffline"] = []
-                await ctx.reply("Done.", delete_after=db["del"])
+        if arg == "reset":
+            db["kickoffline"] = []
+            await ctx.reply("Done.", delete_after=db["del"])
         await ctx.message.delete()
 
     @commands.Cog.listener()
@@ -173,13 +171,13 @@ class printnerds(commands.Cog, name="Print nerds"):
             await interaction.respond(embed=kembed)
 
     @commands.command(help="Sets the message to react to for the no kicklist.")
+    @commands.check_any(commands.is_owner(), stcheck())
     async def noKickMsg(self, ctx, id: int):
-        if await stcheck(ctx) is True:
-            message = await ctx.channel.fetch_message(id)
-            db["noKickMsg"] = [id, message.channel.id]
-            await message.add_reaction("🔥")
-            await ctx.reply("Done.", delete_after=db["del"])
-            await ctx.message.delete()
+          message = await ctx.channel.fetch_message(id)
+          db["noKickMsg"] = [id, message.channel.id]
+          await message.add_reaction("🔥")
+          await ctx.reply("Done.", delete_after=db["del"])
+          await ctx.message.delete()
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
