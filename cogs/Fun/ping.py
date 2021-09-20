@@ -15,7 +15,7 @@ class Ping(commands.Cog):
             color=0x39F220,
         )
         pem.set_footer(
-            text="Version 3.2 of the VULN Bot. Created by TheOnlyWayUp#1231."
+            text="Version 1.3.5 of the VULN Bot. Created by TheOnlyWayUp#1231."
         )
         await ctx.reply(embed=pem, delete_after=db["del"])
         await ctx.message.delete()

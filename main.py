@@ -152,7 +152,8 @@ for category in all_categories:
 
 @bot.event
 async def on_ready():
-    print("Ready.")
+    cprint("Created for Vuln, by TheOnlyWayUp#1231.", "yellow")
+    cprint("Ready.","blue")
     await bot.change_presence(
         status=discord.Status.idle,
         activity=discord.Activity(

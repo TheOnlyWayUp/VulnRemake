@@ -31,6 +31,22 @@ class API_check(commands.Cog, name="API Check"):
             )
         await ctx.message.delete()
 
+    @commands.command(help="Checks if the database is functional.")
+    @commands.check_any(commands.is_owner(), stcheck())
+    async def db_check(self, ctx):
+        try:
+            db[str(ctx.author.id)] = "Vuln Gang"
+            del db[str(ctx.author.id)]
+            await ctx.reply(
+                embed=discord.Embed(
+                    title="Request successful.", color=discord.Colour.random()
+                ),
+                delete_after=db["del"],
+            )
+        except Exception as e:
+            await ctx.reply(f"Request failed, reason - {e}", delete_after=db["del"])
+        await ctx.message.delete()
+
 
 def setup(bot):
     bot.add_cog(API_check(bot))
