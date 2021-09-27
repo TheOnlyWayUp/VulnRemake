@@ -28,7 +28,7 @@ class Chatbot(commands.Cog):
     @commands.command(help="Close a chatbot session.", aliases=["stop", "terminate"])
     async def close(self, ctx):
         global inSesh
-        if inSesh != None:
+        if inSesh is not None:
             pTalk.close()
             await ctx.send(
                 f"Closed {inSesh}'s session, requested by {ctx.author}.",
