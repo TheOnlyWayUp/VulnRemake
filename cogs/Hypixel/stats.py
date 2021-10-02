@@ -4,7 +4,6 @@ from replit import db
 from discord.ext import commands
 from main import *
 import imgfunctions as functions
-from PIL import Image, ImageDraw, ImageSequence
 import io
 
 statsclr = 0xFFFFFF
