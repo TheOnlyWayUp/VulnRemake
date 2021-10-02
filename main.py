@@ -27,7 +27,7 @@ bot = commands.Bot(
 menu = DefaultMenu(page_left="⬅", page_right="➡", remove="❌", active_time=5)
 bot.help_command = PrettyHelp(menu=menu, ending_note="Run by {ctx.author.name}", index_title="**VULN**", no_category="**VULN**", sort_commands=True)
 """
-all_categories = [category for category in os.listdir("./cogs")]
+all_categories = list(os.listdir("./cogs"))
 
 # Main functions
 async def req(link):

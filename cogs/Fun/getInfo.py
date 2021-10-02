@@ -108,7 +108,7 @@ class getInfo(commands.Cog):
     async def getWho(self, ctx, member: discord.Member = None):
         if not member:  # if member is no mentioned
             member = ctx.message.author  # set member as the author
-        roles = [role for role in member.roles]
+        roles = list(member.roles)
         embed = discord.Embed(
             colour=discord.Colour.purple(),
             timestamp=ctx.message.created_at,
