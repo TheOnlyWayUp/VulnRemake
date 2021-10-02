@@ -32,7 +32,7 @@ class Rankgive(commands.Cog):
             "Helpers",
             "UnVulnerable",
         ]
-        users = [m for m in roles[0].members]
+        users = list(roles[0].members)
         changes = {"Updates": 0, "Removals": 0, "Errors": 0, "Unknown": ["."]}
         async with ctx.typing():
             for user in users:
