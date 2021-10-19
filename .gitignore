@@ -1,5 +1,4 @@
 *.pyc
-.deepsource.toml
 .replit
 out.gif
 playerhead.png
