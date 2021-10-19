@@ -20,10 +20,11 @@ class API_check(commands.Cog, name="API Check"):
         Args:
             ctx (context): Provided by system. 
         """
-        async with aiohttp.ClientSession() as session, session.get(
-            f"https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2"
-        ) as resp:
-            x = await resp.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"https://api.hypixel.net/guild?key={key_of_the_api}&id=5e8c16788ea8c9ec75077ba2"
+            ) as resp:
+                x = await resp.json()
         if x["success"] is True:
             await ctx.reply(
                 embed=discord.Embed(

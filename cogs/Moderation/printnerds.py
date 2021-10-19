@@ -127,29 +127,30 @@ class printnerds(commands.Cog, name="Print nerds"):
                 ],
                 delete_after=db["del"] * 1,
             )
-        elif ign is not None and await returnMS(ign) is True:
-            if remove is False:
-                current_time = datetime.datetime.now()
-                db["kickoffline"].append(
-                    {
-                        "Name": ign,
-                        "Reason": reason,
-                        "Length": length,
-                        "Start": f"{current_time.day}",
-                    }
-                )
-                await ctx.reply(
-                    f"Added {ign} to the no-kicklist.", delete_after=db["del"]
-                )
-            else:
-                for item in db["kickoffline"]:
-                    if ign.lower() == item["Name"].lower():
-                        db["kickoffline"].remove(item)
-                        await ctx.reply("Done.", delete_after=db["del"])
-                        break
-                    else:
-                        continue
-                    await ctx.reply("Not found.", delete_after=db["del"])
+        elif ign is not None:
+            if await returnMS(ign) is True:
+                if remove is False:
+                    current_time = datetime.datetime.now()
+                    db["kickoffline"].append(
+                        {
+                            "Name": ign,
+                            "Reason": reason,
+                            "Length": length,
+                            "Start": f"{current_time.day}",
+                        }
+                    )
+                    await ctx.reply(
+                        f"Added {ign} to the no-kicklist.", delete_after=db["del"]
+                    )
+                else:
+                    for item in db["kickoffline"]:
+                        if ign.lower() == item["Name"].lower():
+                            db["kickoffline"].remove(item)
+                            await ctx.reply("Done.", delete_after=db["del"])
+                            break
+                        else:
+                            continue
+                        await ctx.reply("Not found.", delete_after=db["del"])
         await ctx.message.delete(delay=db["del"])
 
     @commands.command(help="The most retarded command in existence.")
