@@ -59,7 +59,7 @@ class Rankgive(commands.Cog):
                         )
                         await user.remove_roles(roles[2], roles[3])
                     # For inv/unvulnerables
-                    elif rank == ranks[2] or rank == ranks[4]:
+                    elif rank in (ranks[2], ranks[4]):
                         await user.add_roles(
                             roles[0], roles[2], reason=f"v!rankgive by {ctx.author}"
                         )
@@ -82,7 +82,7 @@ class Rankgive(commands.Cog):
                     continue
         # Back to normal indentation
         rngEmbed = discord.Embed(title="Rankgive successful", color=0x70E7A4)
-        for key in changes.keys():
+        for key in changes:
             if key != "Unknown":
                 rngEmbed.add_field(name=key, value=changes[key], inline=False)
             else:

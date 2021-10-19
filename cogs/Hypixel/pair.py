@@ -77,7 +77,7 @@ class pair(commands.Cog):
             else:
                 await ctx.reply(
                     embed=discord.Embed(
-                        title=f"Pairing failed. Check the account you have paired to Minecraft. Different fonts/tags are not supported.",
+                        title="Pairing failed. Check the account you have paired to Minecraft. Different fonts/tags are not supported.",
                         color=0xEA5852,
                     ),
                     mention_author=False,
@@ -161,7 +161,7 @@ class pair(commands.Cog):
         except:
             await ctx.reply(
                 embed=discord.Embed(
-                    title=f"Pairing failed. Check the account you have paired to Minecraft. Different fonts/tags are not supported.",
+                    title="Pairing failed. Check the account you have paired to Minecraft. Different fonts/tags are not supported.",
                     color=0xEA5852,
                 ),
                 mention_author=False,

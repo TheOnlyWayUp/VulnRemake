@@ -118,7 +118,7 @@ class printnerds(commands.Cog, name="Print nerds"):
         """
         if ign is None:
             await ctx.reply(
-                f"What would you like to do to?",
+                "What would you like to do to?",
                 components=[
                     [
                         Button(label="Reset", custom_id="reset", style=1),
@@ -127,30 +127,29 @@ class printnerds(commands.Cog, name="Print nerds"):
                 ],
                 delete_after=db["del"] * 1,
             )
-        elif ign is not None:
-            if await returnMS(ign) is True:
-                if remove is False:
-                    current_time = datetime.datetime.now()
-                    db["kickoffline"].append(
-                        {
-                            "Name": ign,
-                            "Reason": reason,
-                            "Length": length,
-                            "Start": f"{current_time.day}",
-                        }
-                    )
-                    await ctx.reply(
-                        f"Added {ign} to the no-kicklist.", delete_after=db["del"]
-                    )
-                else:
-                    for item in db["kickoffline"]:
-                        if ign.lower() == item["Name"].lower():
-                            db["kickoffline"].remove(item)
-                            await ctx.reply("Done.", delete_after=db["del"])
-                            break
-                        else:
-                            continue
-                        await ctx.reply("Not found.", delete_after=db["del"])
+        elif ign is not None and await returnMS(ign) is True:
+            if remove is False:
+                current_time = datetime.datetime.now()
+                db["kickoffline"].append(
+                    {
+                        "Name": ign,
+                        "Reason": reason,
+                        "Length": length,
+                        "Start": f"{current_time.day}",
+                    }
+                )
+                await ctx.reply(
+                    f"Added {ign} to the no-kicklist.", delete_after=db["del"]
+                )
+            else:
+                for item in db["kickoffline"]:
+                    if ign.lower() == item["Name"].lower():
+                        db["kickoffline"].remove(item)
+                        await ctx.reply("Done.", delete_after=db["del"])
+                        break
+                    else:
+                        continue
+                    await ctx.reply("Not found.", delete_after=db["del"])
         await ctx.message.delete(delay=db["del"])
 
     @commands.command(help="The most retarded command in existence.")
@@ -199,22 +198,24 @@ class printnerds(commands.Cog, name="Print nerds"):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.channel_id == db["noKickMsg"][1]:
-            if payload.message_id == db["noKickMsg"][0]:
-                guild = bot.get_guild(payload.guild_id)
-                user = guild.get_member(payload.member.id)
-                current_time = datetime.datetime.now()
-                role = discord.utils.get(guild.roles, name="Guild member")
-                if role in user.roles:
-                    db["kickoffline"].append(
-                        {
-                            "Name": user.display_name,
-                            "Reason": "Reacted to message.",
-                            "Length": 3,
-                            "Start": f"{current_time.day}",
-                        }
-                    )
-                    await user.send("You will not be kicked for 3 days.")
+        if (
+            payload.channel_id == db["noKickMsg"][1]
+            and payload.message_id == db["noKickMsg"][0]
+        ):
+            guild = bot.get_guild(payload.guild_id)
+            user = guild.get_member(payload.member.id)
+            current_time = datetime.datetime.now()
+            role = discord.utils.get(guild.roles, name="Guild member")
+            if role in user.roles:
+                db["kickoffline"].append(
+                    {
+                        "Name": user.display_name,
+                        "Reason": "Reacted to message.",
+                        "Length": 3,
+                        "Start": f"{current_time.day}",
+                    }
+                )
+                await user.send("You will not be kicked for 3 days.")
 
 
 def setup(bot):

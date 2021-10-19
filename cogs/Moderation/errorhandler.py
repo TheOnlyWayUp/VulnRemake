@@ -23,7 +23,6 @@ class ehandler(commands.Cog):
         Raises:
             error: Raises error if undocumented.
         """
-
         # raise error
         # Command not found
         if isinstance(error, commands.CommandNotFound):

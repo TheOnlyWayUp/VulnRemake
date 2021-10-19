@@ -30,14 +30,16 @@ class staffRole(commands.Cog, name="Set staffrole"):
                 await ctx.send(f"I have set the staff role to {rolement}")
         elif arg == "view":
             await ctx.reply(f"The staff role is {db.get('staffRole')}")
-        elif arg == "reset":
-            if (
-                ctx.author.id == 562175882412687361
-                or ctx.author.id == ctx.guild.owner.id
-                or ctx.author.guild_permissions.administrator is True
-            ):
-                db.set("staffRole", "")
-                await ctx.reply("Reset the staff role.")
+        elif (
+            arg == "reset"
+            and (
+            ctx.author.id == 562175882412687361
+            or ctx.author.id == ctx.guild.owner.id
+            or ctx.author.guild_permissions.administrator is True
+        )
+        ):
+            db.set("staffRole", "")
+            await ctx.reply("Reset the staff role.")
 
     @commands.command(help="Sets a user's nickname.")
     async def setNick(self, ctx, member: discord.Member = None, *, nick=None):

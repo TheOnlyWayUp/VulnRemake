@@ -34,11 +34,10 @@ class getAv(commands.Cog):
         try:
             if seed is None:
                 seed = random.sample(string.ascii_letters, 5)
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    f"https://avatars.dicebear.com/api/micah/{seed}.svg?mood[]=happy"
-                ) as resp:
-                    img_data = await resp.content.read()
+            async with aiohttp.ClientSession() as session, session.get(
+                f"https://avatars.dicebear.com/api/micah/{seed}.svg?mood[]=happy"
+            ) as resp:
+                img_data = await resp.content.read()
             with open("img.svg", "wb") as handler:
                 handler.write(img_data)
             drawing = svg2rlg("img.svg")
