@@ -118,7 +118,7 @@ class printnerds(commands.Cog, name="Print nerds"):
         """
         if ign is None:
             await ctx.reply(
-                f"What would you like to do to?",
+                "What would you like to do to?",
                 components=[
                     [
                         Button(label="Reset", custom_id="reset", style=1),
@@ -199,22 +199,24 @@ class printnerds(commands.Cog, name="Print nerds"):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.channel_id == db["noKickMsg"][1]:
-            if payload.message_id == db["noKickMsg"][0]:
-                guild = bot.get_guild(payload.guild_id)
-                user = guild.get_member(payload.member.id)
-                current_time = datetime.datetime.now()
-                role = discord.utils.get(guild.roles, name="Guild member")
-                if role in user.roles:
-                    db["kickoffline"].append(
-                        {
-                            "Name": user.display_name,
-                            "Reason": "Reacted to message.",
-                            "Length": 3,
-                            "Start": f"{current_time.day}",
-                        }
-                    )
-                    await user.send("You will not be kicked for 3 days.")
+        if (
+            payload.channel_id == db["noKickMsg"][1]
+            and payload.message_id == db["noKickMsg"][0]
+        ):
+            guild = bot.get_guild(payload.guild_id)
+            user = guild.get_member(payload.member.id)
+            current_time = datetime.datetime.now()
+            role = discord.utils.get(guild.roles, name="Guild member")
+            if role in user.roles:
+                db["kickoffline"].append(
+                    {
+                        "Name": user.display_name,
+                        "Reason": "Reacted to message.",
+                        "Length": 3,
+                        "Start": f"{current_time.day}",
+                    }
+                )
+                await user.send("You will not be kicked for 3 days.")
 
 
 def setup(bot):
