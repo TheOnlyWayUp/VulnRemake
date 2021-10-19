@@ -5,6 +5,8 @@ from main import *
 
 
 class Rankgive(commands.Cog):
+    """Synchronises ranks between Hypixel and Discord.
+    """
     def __init__(self, bot):
         self.bot = bot
 
@@ -14,6 +16,11 @@ class Rankgive(commands.Cog):
     @commands.cooldown(rate=1, per=30)
     @commands.check_any(commands.is_owner(), stcheck())
     async def rankgive(self, ctx):
+        """The Rankgive command.
+
+        Args:
+            ctx (context): Provided by system.
+        """
         await ctx.reply("Processing.")
         await bot.change_presence(
             status=discord.Status.do_not_disturb,

@@ -5,6 +5,8 @@ from main import *
 
 
 class getInfo(commands.Cog):
+    """All the commands beginning with get, helps you get information.
+    """
     def __init__(self, bot):
         self.bot = bot
 

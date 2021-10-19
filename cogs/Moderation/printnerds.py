@@ -7,6 +7,8 @@ import datetime
 
 
 class printnerds(commands.Cog, name="Print nerds"):
+    """Prints all requirement non compliant members.
+    """
     def __init__(self, bot):
         self.bot = bot
         DiscordComponents(self.bot)
@@ -38,7 +40,6 @@ class printnerds(commands.Cog, name="Print nerds"):
                         # for item in db["kickoffline"]:
                         kickoffline = db["kickoffline"]
                         # print(dict(list(kickoffline)))
-                        print(f"{name}\nnot - {notname}")
                         ind = kickoffline[notnerds.index(notname)]
                         print(ind)
                         if current_time.day - int(ind["Start"]) > int(ind["Length"]):
@@ -48,7 +49,6 @@ class printnerds(commands.Cog, name="Print nerds"):
                             for item in db["kickoffline"]:
                                 if item["Name"] == notname:
                                     db["kickoffline"].remove(item)
-                            print("Reached condition.")
                             continue
                         cont = False
                 if cont is True:
@@ -107,6 +107,15 @@ class printnerds(commands.Cog, name="Print nerds"):
     @commands.command(help="Kicklist related commands.")
     @commands.check_any(commands.is_owner(), stcheck())
     async def kicklist(self, ctx, ign=None, reason=None, length=None, remove=False):
+        """The list of users that are on vacation, exempted from printnerds.
+
+        Args:
+            ctx (context): Provided by system.
+            ign (string, optional): The exmempted user's IGN. Defaults to None.
+            reason (string, optional): Reason of exemption. Defaults to None.
+            length (int, optional): Duration of vacation. Defaults to None.
+            remove (bool, optional): Whether or not to remove them from the list. Defaults to False.
+        """
         if ign is None:
             await ctx.reply(
                 f"What would you like to do to?",
@@ -142,15 +151,20 @@ class printnerds(commands.Cog, name="Print nerds"):
                         else:
                             continue
                         await ctx.reply("Not found.", delete_after=db["del"])
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
     @commands.command(help="The most retarded command in existence.")
     @commands.check_any(commands.is_owner(), stcheck())
     async def kickoffline1992(self, ctx, arg=None):
+        """Resets the kicklist
+
+        Args:
+            arg (string, optional): Has to be 'reset' to proceed. Defaults to None.
+        """
         if arg == "reset":
             db["kickoffline"] = []
             await ctx.reply("Done.", delete_after=db["del"])
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
     @commands.Cog.listener()
     async def on_button_click(function, interaction):
@@ -171,11 +185,17 @@ class printnerds(commands.Cog, name="Print nerds"):
     @commands.command(help="Sets the message to react to for the no kicklist.")
     @commands.check_any(commands.is_owner(), stcheck())
     async def noKickMsg(self, ctx, id: int):
+        """Sets the no kick message.
+
+        Args:
+            ctx (context): Provided by system.
+            id (int): The ID of the message that should be tracked.
+        """
         message = await ctx.channel.fetch_message(id)
         db["noKickMsg"] = [id, message.channel.id]
         await message.add_reaction("🔥")
         await ctx.reply("Done.", delete_after=db["del"])
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):

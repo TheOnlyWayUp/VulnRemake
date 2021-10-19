@@ -6,6 +6,8 @@ from main import stcheck, bot
 
 
 class Reload(commands.Cog, name="Reload/Load commands"):
+    """I don't think this shit even works lol
+    """
     def __init__(self, bot):
         self.bot = bot
         DiscordComponents(self.bot)

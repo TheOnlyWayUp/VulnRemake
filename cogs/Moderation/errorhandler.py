@@ -5,6 +5,8 @@ from main import *
 
 
 class ehandler(commands.Cog):
+    """The main error handler.
+    """
     def __init__(self, bot):
         self.bot = bot
 
@@ -12,6 +14,15 @@ class ehandler(commands.Cog):
     async def on_command_error(
         self, ctx: commands.Context, error: commands.CommandError
     ):
+        """Error handler.
+
+        Args:
+            ctx (commands.Context): Provided by system.
+            error (commands.CommandError): The error object.
+
+        Raises:
+            error: Raises error if undocumented.
+        """
 
         # raise error
         # Command not found
@@ -55,12 +66,14 @@ class ehandler(commands.Cog):
         except:
             await ctx.send(message, delete_after=db["del"])
         try:
-            await ctx.message.delete()
+            await ctx.message.delete(delay=db["del"])
         except:
             pass
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        """DMs user asking for their username on join.
+        """
         guild = member.guild
 
         def check(m: discord.Message):

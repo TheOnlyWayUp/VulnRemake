@@ -11,6 +11,8 @@ def factorialcalc(n):
 
 
 class factorial(commands.Cog):
+    """Finds the factorial of a number (The sum of all the numbers preceeding it, including it).
+    """
     def __init__(self, bot):
         self.bot = bot
 

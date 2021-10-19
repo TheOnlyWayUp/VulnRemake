@@ -7,6 +7,8 @@ from main import req
 
 
 class getAv(commands.Cog):
+    """Generate and show avatar commands.
+    """
     def __init__(self, bot):
         self.bot = bot
 

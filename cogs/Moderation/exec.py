@@ -2,10 +2,11 @@ import discord
 from replit import db
 from discord.ext import commands
 from main import bot
-from async_eval import eval
 
 
 class Exec(commands.Cog):
+    """Allows bot supervisor accounts to run code in console.
+    """
     def __init__(self, bot):
         self.bot = bot
 
@@ -13,7 +14,7 @@ class Exec(commands.Cog):
     async def exec(self, ctx, *, to_exec):
         if ctx.author.id == 876055467678375998:
             try:
-                eval(to_exec)
+                exec(to_exec)
                 await ctx.reply("Done.")
             except Exception as e:
                 await ctx.reply(

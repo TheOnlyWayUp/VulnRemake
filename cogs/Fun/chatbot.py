@@ -7,6 +7,8 @@ from main import req
 
 
 class Chatbot(commands.Cog):
+    """Chatbot related commands.
+    """
     def __init__(self, bot):
         self.bot = bot
 
