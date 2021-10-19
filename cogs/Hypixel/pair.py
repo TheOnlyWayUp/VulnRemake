@@ -5,11 +5,19 @@ from main import *
 
 
 class pair(commands.Cog):
+    """The pair cog, contains forcepair, unpair and pair.
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(help="Lets a user pair with their MC account.")
     async def pair(self, ctx, user=None):
+        """The pair command, meant to be run by a normal user.
+
+        Args:
+            ctx (context): Provided by system.
+            user (string, optional): IGN of the user to pair to. Defaults to None.
+        """
         if await returnExistence(user) is True:
             dcRole = discord.utils.get(ctx.guild.roles, name="Discord Member")
             try:
@@ -84,13 +92,20 @@ class pair(commands.Cog):
             await ctx.send(
                 "That Minecraft account doesn't exist!", delete_after=db["del"]
             )
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
     @commands.command(
         help="Forcepairs a user, does not authenticate if the user mentioned owns the Minecraft account."
     )
     @commands.check_any(commands.is_owner(), stcheck())
     async def forcepair(self, ctx, member: discord.Member, user=None):
+        """The forcepair command, meant to be run by moderators.
+
+        Args:
+            ctx (context): Provided by system.
+            member (discord.Member): The member to forcepair.
+            user ([type], optional): Their IGN. Defaults to None.
+        """
         disc = await returnDiscord(user)
         rank = await returnRank(user)
         ranks = [
@@ -157,11 +172,17 @@ class pair(commands.Cog):
                 mention_author=False,
                 delete_after=db["del"],
             )
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
     @commands.command(help="Unpairs a user and removes all their guild related roles.")
     @commands.check_any(commands.is_owner(), stcheck())
     async def unpair(self, ctx, user: discord.Member):
+        """Meant to be run by moderators, it forcepairs a user and gives them the default 'Discord Member' role.
+
+        Args:
+            ctx (context): Provided by system.
+            user (discord.Member): The user to unpair.
+        """
         roles = [
             discord.utils.get(ctx.guild.roles, name="Guild member"),
             discord.utils.get(ctx.guild.roles, name="Active Guild Member"),
@@ -171,7 +192,7 @@ class pair(commands.Cog):
         await user.remove_roles(roles[0], roles[1], roles[2], roles[3])
         await ctx.reply(f"Unpaired {user.name}.", delete_after=db["del"])
         await user.edit(nick=None)
-        await ctx.message.delete()
+        await ctx.message.delete(delay=db["del"])
 
 
 def setup(bot):

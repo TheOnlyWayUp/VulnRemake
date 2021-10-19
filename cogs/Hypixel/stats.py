@@ -10,11 +10,19 @@ statsclr = 0xFFFFFF
 
 
 class Stats(commands.Cog):
+    """Stats command.
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(help="Replies with the stats of the username given.")
     async def stats(self, ctx, ign):
+        """The stats command, provides Guild, Discord and Level of user.
+
+        Args:
+            ctx (context): Provided by system.
+            ign (string): The IGN of the user whose stats must be shown.
+        """
         level = await functions.returnLevel(ign)
         uuid = await returnUUID(ign)
         name = await returnName(uuid)
@@ -48,6 +56,7 @@ class Stats(commands.Cog):
             frames.append(frame)
         frames[0].save("out.gif", save_all=True, append_images=frames)
         await ctx.send(file=discord.File("out.gif"))
+        
 
 
 def setup(bot):

@@ -5,6 +5,8 @@ from main import req
 
 
 class define(commands.Cog):
+    """Define a word using a dictionary or urban dictionary.
+    """
     def __init__(self, bot):
         self.bot = bot
 
